@@ -2,14 +2,17 @@
 #define __KB_HID_H
 
 /* Includes ------------------------------------------------------------------*/
-#include  "usbd_hid.h"
+#include "usbd_hid.h"
+#include "stdint.h"
 
-// #define HID_EPIN_ADDR                 0x81U
-// #define HID_EPIN_SIZE                 0x04U
+#define KB_EPIN_ADDR 0x81U
+#define KB_EPIN_SIZE 8U
+#define KB_EPOUT_ADDR 0x01U
+#define KB_EPOUT_SIZE 8U
 
-// #define USB_HID_CONFIG_DESC_SIZ       34U
-// #define USB_HID_DESC_SIZ              9U
-// #define HID_MOUSE_REPORT_DESC_SIZE    74U
+#define KB_CONFIG_DESC_SIZ 41U
+#define KB_HID_DESC_SIZ 9U
+#define KB_REPORT_DESC_SIZE 45U 
 
 // #define HID_DESCRIPTOR_TYPE           0x21U
 // #define HID_REPORT_DESC               0x22U
@@ -31,13 +34,14 @@
 // #define HID_REQ_SET_REPORT            0x09U
 // #define HID_REQ_GET_REPORT            0x01U
 
-extern USBD_ClassTypeDef  KB_HID;
-#define USBD_HID_CLASS    &KB_HID;
+extern USBD_ClassTypeDef KB_HID;
+#define KB_HID_CLASS &KB_HID;
 
-uint8_t USBD_HID_SendReport(USBD_HandleTypeDef *pdev,
+uint8_t KB_SendReport(USBD_HandleTypeDef *pdev,
                             uint8_t *report,
                             uint16_t len);
 
-uint32_t USBD_HID_GetPollingInterval(USBD_HandleTypeDef *pdev);
+uint32_t KB_HID_GetPollingInterval(USBD_HandleTypeDef *pdev);
+
 
 #endif
