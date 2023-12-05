@@ -93,8 +93,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  int led = GPIO_PIN_RESET;
   while (1)
   {
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,led);
+    led = !led;
+    HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
