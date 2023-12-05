@@ -18,8 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "gpio.h"
 #include "usb_device.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -66,7 +66,7 @@ void SystemClock_Config(void);
  */
 int main(void) {
   /* USER CODE BEGIN 1 */
-
+  Reset_USB();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -97,9 +97,19 @@ int main(void) {
   /* USER CODE BEGIN WHILE */
   uint8_t report[8] = {0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00};
   while (1) {
-    swvPrint(0, "hello test\n");
+    // swvPrint(0, "hello test\n");
+    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET) {
+      HAL_Delay(10);
+      if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET) {
+        report[2] = 0x04;
+      } else {
+        report[2] = 0x00;
+      }
+    } else {
+      report[2] = 0x00;
+    }
     KB_SendReport(&hUsbDeviceFS, report, 8);
-    HAL_Delay(500);
+    HAL_Delay(20);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -30,12 +30,13 @@ extern "C" {
 
 /* USER CODE BEGIN Includes */
 // 向SWV Console输出信息
-// port：0~31
+// port:0~31
 void swvPrint(int port, char *ptr);
 
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+void Reset_USB();
 
 /* USER CODE END Private defines */
 
