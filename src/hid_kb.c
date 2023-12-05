@@ -133,15 +133,15 @@ __ALIGN_BEGIN static uint8_t KB_ReportDesc[KB_REPORT_DESC_SIZE]  __ALIGN_END =
     0x95, 0x01,                    //   REPORT_COUNT (1)
     0x75, 0x08,                    //   REPORT_SIZE (8)
     0x81, 0x01,                    //   INPUT (Cnst,Ary,Abs)
-    // 0x95, 0x05,                    //   REPORT_COUNT (5)
-    // 0x75, 0x01,                    //   REPORT_SIZE (1)
-    // 0x05, 0x08,                    //   USAGE_PAGE (LEDs)
-    // 0x19, 0x01,                    //   USAGE_MINIMUM (Num Lock)
-    // 0x29, 0x05,                    //   USAGE_MAXIMUM (Kana)
-    // 0x91, 0x02,                    //   OUTPUT (Data,Var,Abs)
-    // 0x95, 0x01,                    //   REPORT_COUNT (1)
-    // 0x75, 0x03,                    //   REPORT_SIZE (3)
-    // 0x91, 0x01,                    //   OUTPUT (Cnst,Ary,Abs)
+    0x95, 0x05,                    //   REPORT_COUNT (5)
+    0x75, 0x01,                    //   REPORT_SIZE (1)
+    0x05, 0x08,                    //   USAGE_PAGE (LEDs)
+    0x19, 0x01,                    //   USAGE_MINIMUM (Num Lock)
+    0x29, 0x05,                    //   USAGE_MAXIMUM (Kana)
+    0x91, 0x02,                    //   OUTPUT (Data,Var,Abs)
+    0x95, 0x01,                    //   REPORT_COUNT (1)
+    0x75, 0x03,                    //   REPORT_SIZE (3)
+    0x91, 0x01,                    //   OUTPUT (Cnst,Ary,Abs)
     0x95, 0x06,                    //   REPORT_COUNT (6)
     0x75, 0x08,                    //   REPORT_SIZE (8)
     0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
@@ -175,6 +175,8 @@ static uint8_t  KB_HID_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
   /* Open EP IN */
   USBD_LL_OpenEP(pdev, KB_EPIN_ADDR, USBD_EP_TYPE_INTR, KB_EPIN_SIZE);
   pdev->ep_in[KB_EPIN_ADDR& 0xFU].is_used = 1U;
+  USBD_LL_OpenEP(pdev, KB_EPOUT_ADDR, USBD_EP_TYPE_INTR, KB_EPOUT_SIZE);
+  pdev->ep_out[KB_EPOUT_ADDR&0xFU].is_used = 1U;
 
   pdev->pClassData = USBD_malloc(sizeof(USBD_HID_HandleTypeDef));
 
@@ -201,6 +203,8 @@ static uint8_t  KB_HID_DeInit(USBD_HandleTypeDef *pdev,
   /* Close HID EPs */
   USBD_LL_CloseEP(pdev, KB_EPIN_ADDR);
   pdev->ep_in[KB_EPIN_ADDR & 0xFU].is_used = 0U;
+  USBD_LL_CloseEP(pdev, KB_EPOUT_ADDR);
+  pdev->ep_out[KB_EPOUT_ADDR&0xFU].is_used = 0U;
 
   /* FRee allocated memory */
   if (pdev->pClassData != NULL)

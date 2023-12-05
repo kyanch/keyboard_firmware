@@ -20,6 +20,7 @@
 #include "main.h"
 #include "usb_device.h"
 #include "keyboard.h"
+#include "stm32f1xx_hal_flash.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -94,14 +95,15 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  kb_add_key(4);
-  int led = 0;
+  kb_add_modifiers(RAlt);
+  // int led = 0;
   while (1)
   {
-    HAL_Delay(500);
+    HAL_Delay(50);
     kb_send();
-    led=!led;
-    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,led);
+    kb_report_clean();
+    // led=!led;
+    // HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,led);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -198,14 +200,15 @@ static void MX_GPIO_Init(void)
 int led = GPIO_PIN_RESET;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
-  return ;
   switch (GPIO_Pin)
   {
   case GPIO_PIN_0:
     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, led);
     led = !led;
     kb_add_key(04);
+    kb_send();
+    kb_report_clean();
+    kb_send();
     break;
 
   default:

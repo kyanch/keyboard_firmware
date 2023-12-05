@@ -23,7 +23,5 @@ void kb_add_key(uint8_t key){
 
 
 void kb_send(){
-    static uint8_t data[]={0x00,0x00,0x06,0,0,0,0,0};
-    KB_SendReport(&hUsbDeviceFS,data,8);
-    
+    KB_SendReport(&hUsbDeviceFS,kb_report+1,8);
 }
