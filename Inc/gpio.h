@@ -29,6 +29,9 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+// 向SWV Console输出信息
+// port：0~31
+void swvPrint(int port, char *ptr);
 
 /* USER CODE END Includes */
 

@@ -22,6 +22,15 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
+#include "string.h"
+void swvPrint(int port, char *ptr) {
+  int i = 0;
+  for (i = 0; i < strlen(ptr); i++) {
+    while (ITM->PORT[port].u32 == 0) {
+    }
+    ITM->PORT[port].u8 = *(ptr + i);
+  }
+}
 
 /* USER CODE END 0 */
 
