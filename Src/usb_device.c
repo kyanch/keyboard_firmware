@@ -27,6 +27,8 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "kb_hid.h"
+
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */
@@ -69,7 +71,7 @@ void MX_USB_DEVICE_Init(void) {
   if (USBD_Init(&hUsbDeviceFS, &FS_Desc, DEVICE_FS) != USBD_OK) {
     Error_Handler();
   }
-  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_HID) != USBD_OK) {
+  if (USBD_RegisterClass(&hUsbDeviceFS, &KB_HID) != USBD_OK) {
     Error_Handler();
   }
   if (USBD_Start(&hUsbDeviceFS) != USBD_OK) {

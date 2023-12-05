@@ -23,6 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "kb_hid.h"
 
 /* USER CODE END Includes */
 
@@ -33,6 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USER CODE END PD */
 
@@ -93,8 +95,10 @@ int main(void) {
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t report[8] = {0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00};
   while (1) {
-    swvPrint(0,"hello test\n");
+    swvPrint(0, "hello test\n");
+    KB_SendReport(&hUsbDeviceFS, report, 8);
     HAL_Delay(500);
     /* USER CODE END WHILE */
 
