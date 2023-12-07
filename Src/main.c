@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "kb_hid.h"
+#include "keyboard.h"
 
 /* USER CODE END Includes */
 
@@ -95,21 +96,10 @@ int main(void) {
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t report[8] = {0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00};
+  HAL_Delay(500);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
   while (1) {
     // swvPrint(0, "hello test\n");
-    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET) {
-      HAL_Delay(10);
-      if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET) {
-        report[2] = 0x04;
-      } else {
-        report[2] = 0x00;
-      }
-    } else {
-      report[2] = 0x00;
-    }
-    KB_SendReport(&hUsbDeviceFS, report, 8);
-    HAL_Delay(20);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -160,6 +150,21 @@ void SystemClock_Config(void) {
 }
 
 /* USER CODE BEGIN 4 */
+/**
+ * Moved from stm32f1xx_it.c to here. 1ms
+ * @brief This function handles System tick timer.
+ */
+uint8_t nextOp = 0;
+uint8_t tick_count = 0;
+void SysTick_Handler(void) {
+  /* USER CODE BEGIN SysTick_IRQn 0 */
+
+  /* USER CODE END SysTick_IRQn 0 */
+  HAL_IncTick();
+  /* USER CODE BEGIN SysTick_IRQn 1 */
+
+  /* USER CODE END SysTick_IRQn 1 */
+}
 
 /* USER CODE END 4 */
 
