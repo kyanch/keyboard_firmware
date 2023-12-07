@@ -53,7 +53,7 @@ void scan_state_change() {
   }
 }
 
-void kb_state_chagne() {
+void kb_state_change() {
   uint16_t *keys = keyboard.keys;
   uint16_t *new_keys = keyboard.scan_result;
   switch (keyboard.state) {
